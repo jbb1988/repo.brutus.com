@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Compound Interest Calculator</title>
+    <style>
+        .calculator-container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 300px;
+            font-family: Arial, sans-serif;
+        }
+        .calculator-input {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+        }
+        .calculator-button {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        .calculator-result {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <h3>Daily Compound Interest Calculator</h3>
+        <input type="number" class="calculator-input" id="principal" placeholder="Principal amount">
+        <input type="number" class="calculator-input" id="annualRate" placeholder="Annual interest rate (%)">
+        <input type="number" class="calculator-input" id="days" placeholder="Number of days">
+        <label>
+            <input type="checkbox" id="reinvest">
+            Reinvest interest
+        </label>
+        <button class="calculator-button" onclick="calculateInterest()">Calculate</button>
+        <div class="calculator-result" id="result"></div>
+    </div>
+
+    <script>
+        function compoundInterest(principal, annualRate, days, reinvest) {
+            const dailyRate = annualRate / 365 / 100;
+            let finalAmount = principal;
+            for (let i = 0; i < days; i++) {
+                const interest = finalAmount * dailyRate;
+                if (reinvest) {
+                    finalAmount += interest;
+                } else {
+                    finalAmount = principal + interest;
+                }
+            }
+            return finalAmount;
+        }
+
+        function calculateInterest() {
+            const principal = parseFloat(document.getElementById('principal').value);
+            const annualRate = parseFloat(document.getElementById('annualRate').value);
+            const days = parseInt(document.getElementById('days').value);
+            const reinvest = document.getElementById('reinvest').checked;
+
+            const finalAmount = compoundInterest(principal, annualRate, days, reinvest);
+            document.getElementById('result').innerText = 'Final amount after ' + days + ' days: ' + finalAmount.toFixed(2);
+        }
+    </script>
+</body>
+</html>
